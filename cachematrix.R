@@ -1,15 +1,29 @@
-## Put comments here that give an overall description of what your
-## functions do
+## These functions return the inverse of a matrix either from a cache,
+## if previously calculated or freshly calculated
 
-## Write a short comment describing this function
+## Function for creating inverse matrix and cache
 
 makeCacheMatrix <- function(x = matrix()) {
-
+  inv <- matrix()
+  get_data <- function() {x}
+  set_inverse <- function(inverse) {inv <<- inverse}
+  get_inverse <- function() {inv}
+  list(get_data = get_data, set_inverse = set_inverse, get_inverse = get_inverse)
+  
 }
-
-
-## Write a short comment describing this function
+## Function for retrieving value of inverse from cache/
+## calculating value of inverse and caching it
 
 cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+  inv <- x$get_inverse()
+  if (!is.na(inv[1,1])) {
+    message("inverse from cache ")
+    return(inv)
+  } else {
+    data <- x$get_data()
+    inv <- solve(data)
+    message("calculated inverse ")    
+    x$set_inverse(inv)
+    return(inv)
+  }
 }
